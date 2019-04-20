@@ -87,6 +87,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Core\Calculators\ExpressionCalculator.cs" />
     <Compile Include="Core\Calculators\ICalculator.cs" />
+    <Compile Include="Core\test\ITest.cs" />
+    <Compile Include="Core\test\Test.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\Shell.xaml.cs">

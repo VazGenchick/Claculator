@@ -1,10 +1,11 @@
-﻿using System.Windows;
-using Prism.Unity;
+﻿using Prism.Unity;
+using System.Windows;
 using Unity;
 using WpfApp3.Views;
 
 namespace WpfApp3.App_Start
 {
+    [System.Obsolete]
     public class Bootstrapper : UnityBootstrapper
     {
 

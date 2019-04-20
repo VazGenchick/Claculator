@@ -1,9 +1,5 @@
 ﻿using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using test1.Core.test;
 using WpfApp3.Core.Calculators;
 using WpfApp3.ViewModels.Base;
 
@@ -13,17 +9,17 @@ namespace WpfApp3.ViewModels
     {
 
         private bool hasCalculated;
-
-        public readonly ICalculator calculator;
-
-        public ShellViewModel(ICalculator calculator)
+        private string calculatorText;
+        public readonly ICalculator _calculator;
+        public readonly ITest _test;
+        private bool status;
+        public ShellViewModel(ICalculator calculator, ITest test)
         {
-           this.calculator = calculator;
+            _calculator = calculator;
+            _test = test;
         }
 
         public string Title { get; } = "КалькуЛятаp";
-
-        private string calculatorText;
 
         public string CalculatorText
         {
@@ -31,29 +27,51 @@ namespace WpfApp3.ViewModels
             set { SetProperty(ref calculatorText, value); }
         }
 
-
-
-
-        public DelegateCommand<object> AddNumberCommand {get; set;}
-
+        public DelegateCommand<object> AddNumberCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
-
+        public DelegateCommand ClearCommand { get; set; }
         public DelegateCommand EqualsCommand { get; set; }
 
         protected override void RegisterCommands()
         {
             AddNumberCommand = new DelegateCommand<object>(AddNumber);
-            DeleteCommand = new DelegateCommand(Clear);
+            DeleteCommand = new DelegateCommand(Delete);
             EqualsCommand = new DelegateCommand(Calculate);
+            ClearCommand = new DelegateCommand(Clear, Status);
+        }
+
+        private bool Status()
+        {
+            if (status)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void Clear()
+        {
+            if (CalculatorText != null)
+            {
+                CalculatorText = _test.CharClear(CalculatorText).ToString();
+            }
+
+            if (CalculatorText == string.Empty)
+            {
+                status = false;
+                ClearCommand.RaiseCanExecuteChanged();
+            }
+
         }
 
         private void Calculate()
         {
-            CalculatorText = calculator.Calculate(CalculatorText).ToString("N2");
+
+            CalculatorText = _calculator.Calculate(CalculatorText).ToString("N2");
             hasCalculated = true;
         }
 
-        private void Clear()
+        private void Delete()
         {
             CalculatorText = string.Empty;
         }
@@ -61,12 +79,16 @@ namespace WpfApp3.ViewModels
 
         private void AddNumber(object buttonValue)
         {
+
+            status = true;
+            ClearCommand.RaiseCanExecuteChanged();
             if (hasCalculated)
             {
-                Clear();
+                Delete();
                 hasCalculated = false;
             }
             CalculatorText += buttonValue.ToString();
+
         }
 
 
