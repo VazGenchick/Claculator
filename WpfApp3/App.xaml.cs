@@ -1,16 +1,28 @@
-﻿using System.Windows;
-using Bootstrapper = WpfApp3.App_Start.Bootstrapper;
+﻿using Prism.Ioc;
+using Prism.Unity;
+using WpfApp3.Views;
+using System.Windows;
+using WpfApp3.Core.Calculators;
+using test1.Core.test;
 
 namespace WpfApp3
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override Window CreateShell()
         {
-            new Bootstrapper().Run();
+            return Container.Resolve<Shell>();
+
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<ICalculator, ExpressionCalculator>();
+            containerRegistry.Register<ITest, Test>();
+           
         }
 
     }
