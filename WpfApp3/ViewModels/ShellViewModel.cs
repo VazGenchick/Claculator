@@ -73,6 +73,7 @@ namespace WpfApp3.ViewModels
         private void Delete()
         {
             CalculatorText = string.Empty;
+            IsEnabled = false;
         }
 
         private void AddNumber(object buttonValue)
@@ -87,7 +88,5 @@ namespace WpfApp3.ViewModels
 
         } 
         #endregion
-
-
     }
 }
