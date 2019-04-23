@@ -86,7 +86,7 @@ namespace WpfApp3.ViewModels
             }
             CalculatorText += buttonValue.ToString();
 
-        } 
+        }
         #endregion
     }
 }
