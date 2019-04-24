@@ -78,8 +78,8 @@
         <Button Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Content="0"></Button>
         <Button Grid.Row="5" Grid.Column="3" Content="."></Button>
         <Button Grid.Row="5" Grid.Column="4" Content="/"></Button>
-        <Button Command="{Binding EqualsCommand}" Grid.Row="4" Grid.Column="5" Content="="/>
-
+        <Button Command="{Binding EqualsCommand}" CommandParameter="ViewOne" Grid.Row="4" Grid.Column="5" Content="="/>
+        <ContentControl Grid.Row="5" Grid.Column="5" prism:RegionManager.RegionName="ContentRegion" Margin="5"  />
 
 
 

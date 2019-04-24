@@ -4,6 +4,8 @@ using WpfApp3.Views;
 using System.Windows;
 using WpfApp3.Core.Calculators;
 using test1.Core.test;
+using Unity.Lifetime;
+using Prism.Modularity;
 
 namespace WpfApp3
 {
@@ -14,16 +16,20 @@ namespace WpfApp3
     {
         protected override Window CreateShell()
         {
+            
             return Container.Resolve<Shell>();
-
+            
         }
 
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        protected override void RegisterTypes(IContainerRegistry container)
         {
-            containerRegistry.Register<ICalculator, ExpressionCalculator>();
-            containerRegistry.Register<ITest, Test>();
-           
+            container.Register<ICalculator, ExpressionCalculator>();
+            container.Register<ITest, Test>();
+                 
         }
-
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<ModuleOne.ModuleOne_Module>();
+        }
     }
 }

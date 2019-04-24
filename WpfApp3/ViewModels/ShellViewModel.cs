@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Regions;
 using test1.Core.test;
 using WpfApp3.Core.Calculators;
 using WpfApp3.ViewModels.Base;
@@ -13,13 +14,15 @@ namespace WpfApp3.ViewModels
         public readonly ICalculator _calculator;
         public readonly ITest _test;
         private bool _isEnabled;
+        private readonly IRegionManager _regionManager;
         #endregion
 
         #region Constructor
-        public ShellViewModel(ICalculator calculator, ITest test)
+        public ShellViewModel(ICalculator calculator, ITest test, IRegionManager regionManager)
         {
             _calculator = calculator;
             _test = test;
+            _regionManager = regionManager;
         }
         #endregion
 
@@ -42,7 +45,7 @@ namespace WpfApp3.ViewModels
         public DelegateCommand<object> AddNumberCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
         public DelegateCommand ClearCommand { get; set; }
-        public DelegateCommand EqualsCommand { get; set; }
+        public DelegateCommand<string> EqualsCommand { get; set; }
 
         #endregion
 
@@ -51,7 +54,7 @@ namespace WpfApp3.ViewModels
         {
             AddNumberCommand = new DelegateCommand<object>(AddNumber);
             DeleteCommand = new DelegateCommand(Delete);
-            EqualsCommand = new DelegateCommand(Calculate);
+            EqualsCommand = new DelegateCommand<string>(Calculate);
             ClearCommand = new DelegateCommand(Clear).ObservesCanExecute(() => IsEnabled);
         }
 
@@ -63,11 +66,13 @@ namespace WpfApp3.ViewModels
                 IsEnabled = false;
         }
 
-        private void Calculate()
+        private void Calculate(string navigatePath)
         {
-
+            if (navigatePath != null)
+                _regionManager.RequestNavigate("ContentRegion", navigatePath);
             CalculatorText = _calculator.Calculate(CalculatorText).ToString("N2");
             hasCalculated = true;
+
         }
 
         private void Delete()
